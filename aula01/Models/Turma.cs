@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace curso_aspnet.Models
 {
@@ -23,5 +24,11 @@ namespace curso_aspnet.Models
         [Required]
         public string ModalidadeEsportiva { get; set; }
         public List<Usuario> Alunos { get; private set; }
+
+        public void AdicionarAluno(Usuario aluno)
+        {
+            if (!Alunos.Any(u => u.Id == aluno.Id))
+                Alunos.Add(aluno);
+        }
     }
 }

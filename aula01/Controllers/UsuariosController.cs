@@ -22,7 +22,8 @@ namespace curso_aspnet.Controllers
         [HttpPost]
         public ActionResult Cadastrar([FromBody] PostNewUsuarioDTO newUsuario)
         {
-            Usuario usr = new Usuario(){
+            Usuario usr = new Usuario()
+            {
                 Id = _contextDB.ObterProximoUsuarioID(),
                 Nome = newUsuario.Nome,
                 EMail = newUsuario.EMail,
@@ -36,6 +37,19 @@ namespace curso_aspnet.Controllers
         public ActionResult<IEnumerable<Usuario>> Get()
         {
             return Ok(_contextDB.ObterUsuarios());
+        }
+
+        [HttpPost("Inscrever")]
+        public ActionResult<Turma> InscreverAluno(int idTurma, int idAluno)
+        {
+            Turma turma = _contextDB.ObterTurma(idTurma);
+            if (turma == null) return BadRequest("Turma não encontrada");
+
+            Usuario aluno = _contextDB.ObterUsuario(idAluno);
+            if (aluno == null) return BadRequest("Aluno/Usuário não encontrado!");
+
+            turma.AdicionarAluno(aluno);
+            return Ok(turma);
         }
     }
 }
