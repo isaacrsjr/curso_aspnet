@@ -94,7 +94,7 @@ public class DBInMemory : IContextDB
     public DBInMemory()
     {
         _turmas = JsonConvert.DeserializeObject<List<Turma>>(objs);
-        _usuarios = new();
+        _usuarios = _turmas.SelectMany(t => t.Alunos).Distinct().ToList();
     }
     private List<Usuario> _usuarios;
     private List<Turma> _turmas;
